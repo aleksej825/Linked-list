@@ -41,7 +41,7 @@ class linkedList{
 
     public:
     linkedList();
-    linkedList();
+    linkedList(compare_list_elements_fn cmp_f);
     ~linkedList();
 
     struct list_element* create_list_element( void );
