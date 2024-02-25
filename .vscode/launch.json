@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
 //            "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "program": "${workspaceFolder}/build/canem_client",
+            "program": "${workspaceFolder}/build/my_list",
             // "program": "${workspaceFolder}/build/test/unit_tests", // for test debug
             "args": [],
             "stopAtEntry": false,

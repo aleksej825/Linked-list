@@ -10,10 +10,11 @@ void removeElement();
 void printList();
 void userHelp();
 
+linkedList my_list;
+
 int main(){
 
     cout << "Welcome to the data store!" << endl;
-    linkedList my_list;
 
     string command;
     using handler_ptr_type = void (*)(void);
@@ -40,22 +41,41 @@ int main(){
 }
 
 void addElement(){
-    cout << "Element added" << endl;
+    string new_data;
+    cout << "Enter the new data: ";
+    cin >> new_data;
+
+    list_element* new_elem = my_list.create_list_element(   (void*) new_data.c_str(),
+                                                            new_data.length());
+    
+    int elem_qty = my_list.get_elem_qty();
+    list_element* existing_elem = my_list.get_list_element_at_pos(elem_qty);
+    my_list.insert_list(existing_elem, new_elem);
+
+    cout << "Element has been added" << endl;
     cout << "*********************" << endl;
 }
 
 void editElement(){
-    cout << "Element edited" << endl;
+    cout << "Element has been edited" << endl;
     cout << "*********************" << endl;
 }
 
 void removeElement(){
-    cout << "Element removed" << endl;
+    cout << "Element has been removed" << endl;
     cout << "*********************" << endl;
 }
 
 void printList(){
-    cout << "List printed" << endl;
+    cout << "List of elements:" << endl;
+    int counter = 0;
+    list_element *item = my_list.get_list_element_at_pos(counter++);
+    while(item != NULL){
+        char *array = (char*)item->data;
+        cout << counter << ": " << array << endl;
+        item = my_list.get_list_element_at_pos(counter++);
+    }
+
     cout << "*********************" << endl;
 }
 
