@@ -1,16 +1,29 @@
 
-#include "my_list.h"
+#include "my_list.hpp"
 
 #include <stdio.h>
 
 linkedList::linkedList(){
+    list = NULL;
+    list = (struct bidir_list*) malloc( sizeof(struct bidir_list));
+    list->head = NULL;
+    list->tail = NULL;
+    list->count = 0;
+    list->criteria = NULL;
+}
 
+linkedList::linkedList(compare_list_elements_fn cmp_f){
+    list = NULL;
+    list = (struct bidir_list*) malloc( sizeof(struct bidir_list));
+    list->head = NULL;
+    list->tail = NULL;
+    list->count = 0;
+    list->criteria = cmp_f;
 }
 
 linkedList::~linkedList(){
 
 }
-
 
 // list_element* xxx = create_list_element();
 
@@ -76,39 +89,37 @@ void linkedList::delete_list_element( struct list_element** del_element )
     *del_element = NULL;
 }
 
-struct bidir_list* linkedList::create_bidir_list( void )
-{
-    struct bidir_list* temp_list = NULL;
-    temp_list = (struct bidir_list*) malloc( sizeof(struct bidir_list));
-    temp_list->head = NULL;
-    temp_list->tail = NULL;
-    temp_list->count = 0;
-    temp_list->criteria = NULL;
+// struct bidir_list* linkedList::create_bidir_list( void )
+// {
+//     struct bidir_list* temp_list = NULL;
+//     temp_list = (struct bidir_list*) malloc( sizeof(struct bidir_list));
+//     temp_list->head = NULL;
+//     temp_list->tail = NULL;
+//     temp_list->count = 0;
+//     temp_list->criteria = NULL;
 
-    return temp_list;
-}
+//     return temp_list;
+// }
 
-struct bidir_list* linkedList::create_bidir_list( compare_list_elements_fn cmp_f )
-{
-    struct bidir_list* temp_list = NULL;
-    temp_list = (struct bidir_list*) malloc( sizeof(struct bidir_list));
-    temp_list->head = NULL;
-    temp_list->tail = NULL;
-    temp_list->count = 0;
-    temp_list->criteria = cmp_f;
+// struct bidir_list* linkedList::create_bidir_list( compare_list_elements_fn cmp_f )
+// {
+//     struct bidir_list* temp_list = NULL;
+//     temp_list = (struct bidir_list*) malloc( sizeof(struct bidir_list));
+//     temp_list->head = NULL;
+//     temp_list->tail = NULL;
+//     temp_list->count = 0;
+//     temp_list->criteria = cmp_f;
 
-    return temp_list;
-}
+//     return temp_list;
+// }
 
 
 
-bool linkedList::is_belonged_to_list(
-        struct bidir_list* l,
-        struct list_element* le )
+bool linkedList::is_belonged_to_list(struct list_element* le)
 {
    bool presence_flag = false;
 
-   struct list_element* wp = l->head;
+   struct list_element* wp = list->head;
    // create and set 'work pointer' to the list beginning
 
    while( wp != NULL ){ // while the end of list is not reached
@@ -122,51 +133,47 @@ bool linkedList::is_belonged_to_list(
    return presence_flag;
 }
 
-void linkedList::insert_empty_list(struct bidir_list* l,
-               struct list_element* new_elem)
+void linkedList::insert_empty_list(struct list_element* new_elem)
 {
-    if( l == NULL || new_elem == NULL ) return;
+    if( new_elem == NULL ) return;
 
-    if( l->head == NULL && l->tail == NULL )
+    if( list->head == NULL && list->tail == NULL )
     {// check if the list is empty
-        l->head = new_elem;
-        l->tail = new_elem;
-        l->count = 1;
+        list->head = new_elem;
+        list->tail = new_elem;
+        list->count = 1;
     }
 }
 
-void linkedList::insert_list_head(struct bidir_list* l,
-                      struct list_element* new_elem)
+void linkedList::insert_list_head(struct list_element* new_elem)
 {
-    if( l->head == NULL || l->tail == NULL) return;
+    if( list->head == NULL || list->tail == NULL) return;
 
-    new_elem->next = l->head;  /* 1 */
-    l->head->prev  = new_elem; /* 2 */
-    l->head = new_elem;        /* 3 */
+    new_elem->next = list->head;  /* 1 */
+    list->head->prev  = new_elem; /* 2 */
+    list->head = new_elem;        /* 3 */
 
-    l->count++;
+    list->count++;
 }
 
-void linkedList::insert_list_tail(struct bidir_list* l,
-                      struct list_element* new_elem)
+void linkedList::insert_list_tail(struct list_element* new_elem)
 {
-    if( l->head == NULL || l->tail == NULL) return;
+    if( list->head == NULL || list->tail == NULL) return;
 
-    new_elem->prev = l->tail;  /* 1 */
-    l->tail->next  = new_elem; /* 2 */
-    l->tail =new_elem;         /* 3 */
+    new_elem->prev = list->tail;  /* 1 */
+    list->tail->next  = new_elem; /* 2 */
+    list->tail =new_elem;         /* 3 */
 
-    l->count++;
+    list->count++;
 }
 
-void linkedList::insert_list_between(struct bidir_list* l,
-                         struct list_element* pos,
-                         // position AFTER which will be inserted
-                         struct list_element* new_elem)
+void linkedList::insert_list_between(   struct list_element* pos,
+                                        // position AFTER which will be inserted
+                                        struct list_element* new_elem)
 {
-    if( l->head == NULL || l->tail == NULL) return;
+    if( list->head == NULL || list->tail == NULL) return;
 
-    if ( ! is_belonged_to_list(l, pos)) return;
+    if ( ! is_belonged_to_list(pos)) return;
     // firstly, agree connections from element to list
     new_elem->next = pos->next;      /* 1 */
     new_elem->prev = pos;            /* 2 */
@@ -179,36 +186,35 @@ void linkedList::insert_list_between(struct bidir_list* l,
         pos->next = new_elem;
     */
 
-    l->count++;
+    list->count++;
 }
 
-void linkedList::insert_list(struct bidir_list* l,
-                 struct list_element* pos,
-                 struct list_element* new_elem)
+void linkedList::insert_list(   struct list_element* pos,
+                                struct list_element* new_elem)
 {
-    if( l == NULL || new_elem == NULL ) return;
+    if( new_elem == NULL ) return;
 
-    if( l->head == NULL && l->tail == NULL ) {
-        insert_empty_list( l, new_elem );
+    if( list->head == NULL && list->tail == NULL ) {
+        insert_empty_list(new_elem );
         printf("Insert into EMPTY list \n");
     } else if( pos == NULL ) {
-        insert_list_head( l, new_elem );
+        insert_list_head(new_elem );
         printf("Insert into list HEAD \n");
-    } else if ( pos == l->tail ) {
-        insert_list_tail( l, new_elem );
+    } else if ( pos == list->tail ) {
+        insert_list_tail(new_elem );
         printf("Insert into list TAIL \n");
     } else {
-        insert_list_between(l, pos, new_elem);
+        insert_list_between(pos, new_elem);
         printf("Insert into list BETWEEN \n");
     }
 }
 
-struct list_element* linkedList::get_list_element_at_pos( struct bidir_list* l, int pos)
+struct list_element* linkedList::get_list_element_at_pos(int pos)
 {
     struct list_element* wp = NULL;
-    if( (pos < 0) || (pos >= l->count) ) return NULL;
+    if( (pos < 0) || (pos >= list->count) ) return NULL;
 
-    wp = l->head;
+    wp = list->head;
     for( int i = 0; i < pos ; i++ )
         wp = wp->next;
 
@@ -218,27 +224,27 @@ struct list_element* linkedList::get_list_element_at_pos( struct bidir_list* l, 
 
 
 struct list_element*
-linkedList::delete_form_list_head( struct bidir_list* l, bool need_free = true )
+linkedList::delete_form_list_head(bool need_free )
 {
-    if(     (l->head == NULL) ||
-            (l->tail == NULL) ||
-            (l == NULL ))
+    if(     (list->head == NULL) ||
+            (list->tail == NULL) ||
+            (list == NULL ))
         return NULL;
 
-    struct list_element* del_pos = l->head;
+    struct list_element* del_pos = list->head;
 
-    if( l->head != l->tail ) {
+    if( list->head != list->tail ) {
         // check if list has more than element
-        l->head = l->head->next;
-        l->head->prev = NULL;
+        list->head = list->head->next;
+        list->head->prev = NULL;
     } else {
         // list has only one element, so, after
         // deleting list will become empty
-        l->head = NULL;
-        l->tail = NULL;
+        list->head = NULL;
+        list->tail = NULL;
     }
 
-    l->count--;
+    list->count--;
 
     if( need_free == true ) {
         delete_list_element( & del_pos );
@@ -249,27 +255,27 @@ linkedList::delete_form_list_head( struct bidir_list* l, bool need_free = true )
 }
 
 struct list_element*
-linkedList::delete_form_list_tail( struct bidir_list* l, bool need_free = true )
+linkedList::delete_form_list_tail(bool need_free )
 {
-    if(     (l->head == NULL) ||
-            (l->tail == NULL) ||
-            (l == NULL ))
+    if(     (list->head == NULL) ||
+            (list->tail == NULL) ||
+            (list == NULL ))
         return NULL;
 
-    struct list_element* del_pos = l->tail;
+    struct list_element* del_pos = list->tail;
 
-    if( l->head != l->tail ) {
+    if( list->head != list->tail ) {
         // check if list has more than element
-        l->tail = l->tail->prev;
-        l->tail->next = NULL;
+        list->tail = list->tail->prev;
+        list->tail->next = NULL;
     } else {
         // list has only one element, so, after
         // deleting list will become empty
-        l->head = NULL;
-        l->tail = NULL;
+        list->head = NULL;
+        list->tail = NULL;
     }
 
-    l->count--;
+    list->count--;
 
     if( need_free == true ) {
         delete_list_element( & del_pos );
@@ -280,25 +286,24 @@ linkedList::delete_form_list_tail( struct bidir_list* l, bool need_free = true )
 }
 
 struct list_element* linkedList::delete_form_list_middle (
-        struct bidir_list* l,
         struct list_element* element,
-        bool need_free = true  )
+        bool need_free )
 {
-    if( (l == NULL) || ( element == NULL )) return NULL;
+    if( element == NULL ) return NULL;
 
-    if( !is_belonged_to_list( l, element)) return NULL;
+    if( !is_belonged_to_list(element)) return NULL;
 
-    if(l->head != l->tail ) {
+    if(list->head != list->tail ) {
         // check if list has more than element
         element->prev->next = element->next;
         element->next->prev = element->prev;
     } else {
-        l->head = NULL;
-        l->tail = NULL;
+        list->head = NULL;
+        list->tail = NULL;
     }
 
 
-    l->count--;
+    list->count--;
     if( need_free == true ) {
         delete_list_element( & element );
         return NULL;
@@ -308,32 +313,31 @@ struct list_element* linkedList::delete_form_list_middle (
 }
 
 struct list_element*
-linkedList::delete_from_list(struct bidir_list* l,
-                 struct list_element* pos,
-                 bool need_free = true )
+linkedList::delete_from_list(   struct list_element* pos,
+                                bool need_free )
 {
     struct list_element* temp_element = NULL;
-    if( l->head == NULL && l->tail == NULL ) // empty list
+    if( list->head == NULL && list->tail == NULL ) // empty list
     {
         return NULL;
-    } else if( pos == l->head ) {
-        temp_element = delete_form_list_head( l, need_free);
-    } else if ( pos == l->tail ) {
-        temp_element = delete_form_list_tail( l, need_free);
+    } else if( pos == list->head ) {
+        temp_element = delete_form_list_head(need_free);
+    } else if ( pos == list->tail ) {
+        temp_element = delete_form_list_tail(need_free);
     } else {
-        temp_element = delete_form_list_middle(l, pos, need_free);
+        temp_element = delete_form_list_middle(pos, need_free);
     }
     return temp_element;
 }
 
 struct list_element*
-linkedList::find_element_in_list( struct bidir_list* l, struct list_element* test )
+linkedList::find_element_in_list( struct list_element* test )
 {
-    struct list_element* wp = l->head;
+    struct list_element* wp = list->head;
 
     while( wp != NULL )
     {
-        if( l->criteria( test, wp ) == 0 )
+        if( list->criteria( test, wp ) == 0 )
             break;
         else
             wp = wp->next;
@@ -342,18 +346,17 @@ linkedList::find_element_in_list( struct bidir_list* l, struct list_element* tes
 }
 
 
-void linkedList::add_to_sort_list( struct bidir_list* l,
-        struct list_element* new_element )
+void linkedList::add_to_sort_list( struct list_element* new_element )
 {
 
-struct list_element* wp = l->head;
+struct list_element* wp = list->head;
 int compare_prev = 0;
 int compare_curr = 0;
 
     while( wp != NULL )
     {
         compare_prev = compare_curr;
-        compare_curr = l->criteria( new_element, wp );
+        compare_curr = list->criteria( new_element, wp );
 
         if( compare_prev != compare_curr )
             break;
@@ -364,7 +367,7 @@ int compare_curr = 0;
     // insertion is performed before the element on
     // which the search cycle is broke
 
-    insert_list(l, wp->prev, new_element );
+    insert_list(wp->prev, new_element);
 }
 
 
@@ -375,24 +378,23 @@ int compare_curr = 0;
  *  for end-data
 **/
 void linkedList::change_list_element_in_sort_list(
-        struct bidir_list* l,
         struct list_element* what_to_find,
         struct list_element* what_to_change)
 {
     /* STAGE 1: find element that is need to be changed */
-    struct list_element* fp = find_element_in_list( l, what_to_find );
+    struct list_element* fp = find_element_in_list(what_to_find);
 
     if (fp != NULL ) { // If element for changing is existed in the list
 
     /* STAGE 2: remove element from list */
-    struct list_element* cp = delete_from_list(l, fp, false );
+    struct list_element* cp = delete_from_list(fp, false);
 
     /* STAGE 3: perform changes with data */
     free( cp->data );    
     cp->data = what_to_change->data; // VERY COARSE CHANGING METHOD !!!
 
     /* STAGE 4: add changed element to list again */
-    add_to_sort_list(l, cp);
+    add_to_sort_list(cp);
     }
 }
 
@@ -402,11 +404,11 @@ void linkedList::change_list_element_in_sort_list(
 // IS EQUAL TO:
 // head->next->next->data
 
-void linkedList::delete_all_from_list( struct bidir_list* l )
+void linkedList::delete_all_from_list()
 {
-    if( l == NULL || l->head == NULL ) return;
+    if( list->head == NULL ) return;
 
-    struct list_element* dp = l->head;
+    struct list_element* dp = list->head;
 
 
     while( dp != NULL )
@@ -415,24 +417,24 @@ void linkedList::delete_all_from_list( struct bidir_list* l )
      //   remove_list_element( dp -> prev);
     }
 
-    // remove_list_element( l->tail );
+    // remove_list_element( list->tail );
 
-    l->head = NULL;
-    l->tail = NULL;
-    l->count = 0;
+    list->head = NULL;
+    list->tail = NULL;
+    list->count = 0;
 
 }
 
-void linkedList::resort_list( struct bidir_list* l, compare_list_elements_fn new_criteria )
+void linkedList::resort_list(compare_list_elements_fn new_criteria )
 {
-    if( (l == NULL) || (new_criteria == NULL ) ) return;
+    if( new_criteria == NULL ) return;
 
-    struct list_element* old_list = l->head;
+    struct list_element* old_list = list->head;
 
-    l->head = l->tail = NULL;
-    l->count = 0;
+    list->head = list->tail = NULL;
+    list->count = 0;
 
-    l->criteria = new_criteria;
+    list->criteria = new_criteria;
 
     while( old_list != NULL)
     {
@@ -441,7 +443,7 @@ void linkedList::resort_list( struct bidir_list* l, compare_list_elements_fn new
         old_list->prev->next = NULL; // perform insertion for previous element
         old_list->prev->prev = NULL;
 
-        add_to_sort_list( l, old_list->prev );
+        add_to_sort_list(old_list->prev);
         // add old elemnt to the list with new sorting criteria !
     }
 
