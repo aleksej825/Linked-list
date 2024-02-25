@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.23)
 
 project(my_list LANGUAGES CXX)
 
-add_library(${PROJECT_NAME} STATIC)
+add_executable(${PROJECT_NAME})
 
 target_include_directories(
     ${PROJECT_NAME}
