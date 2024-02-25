@@ -10,6 +10,15 @@ PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/
 )
 
+set(OPT -O0)
+set(WARN -Wall)
+
+set(MY_LIST_FLAGS ${OPT} ${WARN} -g)
+
+add_compile_options(
+    "$<$<COMPILE_LANGUAGE:CXX>:${MY_LIST_FLAGS}>"
+)
+
 target_sources(
     ${PROJECT_NAME}
 PUBLIC
