@@ -2,6 +2,7 @@
 #include "my_list.hpp"
 
 #include <stdio.h>
+#include <cstring>
 
 linkedList::linkedList(){
     list = NULL;
@@ -35,6 +36,7 @@ struct list_element* linkedList::create_list_element( void )
     /* (*temp_element).next = NULL; */  temp_element->next = NULL;
     /* (*temp_element).prev = NULL; */  temp_element->prev = NULL;
     /* (*temp_element).data = NULL; */  temp_element->data = NULL;
+    /* (*temp_element).data = 0; */     temp_element->data_size = 0;
 
     return temp_element;
 }
@@ -65,13 +67,15 @@ list_element* list_element<T> :: operator new()
 */
 
 
-struct list_element* linkedList::create_list_element( void* new_data )
+struct list_element* linkedList::create_list_element( void* new_data, size_t data_size )
 {
     struct list_element* temp_element = NULL;
     temp_element = (struct list_element*) malloc( sizeof(struct list_element));
     temp_element->next = NULL;
     temp_element->prev = NULL;
-    temp_element->data = new_data;
+    temp_element->data = malloc(data_size);
+    memcpy(temp_element->data, new_data, data_size);
+    temp_element->data_size = data_size;
 
     return temp_element;
 }

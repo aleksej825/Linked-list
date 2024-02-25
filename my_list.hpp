@@ -9,6 +9,7 @@ struct list_element {
     struct list_element*    next;
     struct list_element*    prev;
     void*                   data;
+    size_t                  data_size;
 };
 
 typedef int (*compare_list_elements_fn) (struct list_element*, struct list_element*);
@@ -40,7 +41,7 @@ class linkedList{
     ~linkedList();
 
     struct list_element* create_list_element( void );
-    struct list_element* create_list_element( void* new_data );
+    struct list_element* create_list_element( void* new_data, size_t data_size );
     void delete_list_element( struct list_element** del_element );
     // struct bidir_list* create_bidir_list( void );
     // struct bidir_list* create_bidir_list (compare_list_elements_fn cmp_f);
@@ -64,6 +65,7 @@ class linkedList{
                                 bool need_free = true );
     struct list_element* delete_from_list(  struct list_element* pos,
                                             bool need_free = true);
+    inline int get_elem_qty() { return list->count == 0 ? 0: list->count-1; }
 };
 
 #endif // __MY_LIST_H__
