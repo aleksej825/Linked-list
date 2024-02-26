@@ -31,7 +31,7 @@ int main(){
         cin >> command;
         auto handler = handlers_map.find(command);
         if(handler == handlers_map.end()){
-            cout << "Unknown command, if you need help, write 'help' command" << endl;
+            cout << "Unknown command, if you need help, write the command 'help'" << endl;
         } else {
             handler->second();
         }
@@ -57,11 +57,43 @@ void addElement(){
 }
 
 void editElement(){
+    string new_data;
+    int index = 0; 
+
+    cout << "Enter the element index: ";
+    cin >> index;
+
+    list_element* existing_elem = my_list.get_list_element_at_pos(--index);
+    if(existing_elem == NULL){
+        cout << "Error: element not found" << endl;
+        return;
+    }
+
+    cout << "Enter the new data: ";
+    cin >> new_data;
+
+    list_element* new_elem = my_list.create_list_element(   (void*) new_data.c_str(),
+                                                            new_data.length());
+    my_list.insert_list(existing_elem, new_elem);
+    my_list.delete_from_list(existing_elem);
+
     cout << "Element has been edited" << endl;
     cout << "*********************" << endl;
 }
 
 void removeElement(){
+    int index = 0; 
+
+    cout << "Enter the element index: ";
+    cin >> index;
+
+    list_element* existing_elem = my_list.get_list_element_at_pos(--index);
+    if(existing_elem == NULL){
+        cout << "Error: element not found" << endl;
+        return;
+    }
+    my_list.delete_from_list(existing_elem);
+
     cout << "Element has been removed" << endl;
     cout << "*********************" << endl;
 }
