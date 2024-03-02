@@ -1,6 +1,7 @@
 #include "my_list.hpp"
 #include "iostream"
 #include "map"
+#include <limits>
 
 using namespace std;
 
@@ -9,6 +10,7 @@ void editElement();
 void removeElement();
 void printList();
 void userHelp();
+void closeProgram();
 
 linkedList my_list;
 
@@ -23,7 +25,8 @@ int main(){
         {"edit", &editElement},
         {"ls", &printList},
         {"rm", &removeElement},
-        {"help", &userHelp}
+        {"help", &userHelp},
+        {"exit", &closeProgram},
     };
  
     while(1){
@@ -63,6 +66,13 @@ void editElement(){
     cout << "Enter the element index: ";
     cin >> index;
 
+    if(!cin){
+        cout  << "Error: wrong input index" << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+
     list_element* existing_elem = my_list.get_list_element_at_pos(--index);
     if(existing_elem == NULL){
         cout << "Error: element not found" << endl;
@@ -86,6 +96,13 @@ void removeElement(){
 
     cout << "Enter the element index: ";
     cin >> index;
+
+    if(!cin){
+        cout  << "Error: wrong input index" << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
 
     list_element* existing_elem = my_list.get_list_element_at_pos(--index);
     if(existing_elem == NULL){
@@ -117,4 +134,9 @@ void userHelp(){
     cout << "edit - edit existing element;" << endl;
     cout << "ls - get list of all elements;" << endl;
     cout << "rm - remove element." << endl;
+    cout << "exit - close the program." << endl;
+}
+
+void closeProgram(){
+    exit(0);
 }
