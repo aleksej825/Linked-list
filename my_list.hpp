@@ -1,3 +1,14 @@
+/**
+ * @file my_list.hpp
+ * @author Roman Yershov
+ * @brief 
+ * @version 0.1
+ * @date 2024-03-02
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef __MY_LIST_H__
 #define __MY_LIST_H__
 
