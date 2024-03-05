@@ -1,9 +1,19 @@
+/**
+ * @file main.cpp
+ * @author Oleksii Tnachenko (lyoshatkachenko@gmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2024-03-02
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "my_list.hpp"
 #include "iostream"
 #include "map"
 #include <limits>
 
-using namespace std;
+// using namespace std;
 
 void addElement();
 void editElement();
@@ -12,15 +22,15 @@ void printList();
 void userHelp();
 void closeProgram();
 
-linkedList my_list;
+linkedList my_library;
 
 int main(){
 
-    cout << "Welcome to the data store!" << endl;
+    std::cout << "Welcome to the data store!" << std::endl;
 
-    string command;
+    std::string command;
     using handler_ptr_type = void (*)(void);
-    map<string, handler_ptr_type> handlers_map = {
+    std::map<std::string, handler_ptr_type> handlers_map = {
         {"add", &addElement},
         {"edit", &editElement},
         {"ls", &printList},
@@ -30,11 +40,11 @@ int main(){
     };
  
     while(1){
-        cout << "Enter the command:" << endl;
-        cin >> command;
+        std::cout << "Enter the command:" << std::endl;
+        std::cin >> command;
         auto handler = handlers_map.find(command);
         if(handler == handlers_map.end()){
-            cout << "Unknown command, if you need help, write the command 'help'" << endl;
+            std::cout << "Unknown command, if you need help, write the command 'help'" << std::endl;
         } else {
             handler->second();
         }
@@ -44,97 +54,97 @@ int main(){
 }
 
 void addElement(){
-    string new_data;
-    cout << "Enter the new data: ";
-    cin >> new_data;
+    std::string new_data;
+    std::cout << "Enter the new data: ";
+    std::cin >> new_data;
 
-    list_element* new_elem = my_list.create_list_element(   (void*) new_data.c_str(),
+    list_element* new_elem = my_library.create_list_element(   (void*) new_data.c_str(),
                                                             new_data.length());
     
-    int elem_qty = my_list.get_elem_qty();
-    list_element* existing_elem = my_list.get_list_element_at_pos(elem_qty);
-    my_list.insert_list(existing_elem, new_elem);
+    int elem_qty = my_library.get_elem_qty();
+    list_element* existing_elem = my_library.get_list_element_at_pos(elem_qty);
+    my_library.insert_list(existing_elem, new_elem);
 
-    cout << "Element has been added" << endl;
-    cout << "*********************" << endl;
+    std::cout << "Element has been added" << std::endl;
+    std::cout << "*********************" << std::endl;
 }
 
 void editElement(){
-    string new_data;
+    std::string new_data;
     int index = 0; 
 
-    cout << "Enter the element index: ";
-    cin >> index;
+    std::cout << "Enter the element index: ";
+    std::cin >> index;
 
-    if(!cin){
-        cout  << "Error: wrong input index" << endl;
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    if(!std::cin){
+        std::cout  << "Error: wrong input index" << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
     }
 
-    list_element* existing_elem = my_list.get_list_element_at_pos(--index);
+    list_element* existing_elem = my_library.get_list_element_at_pos(--index);
     if(existing_elem == NULL){
-        cout << "Error: element not found" << endl;
+        std::cout << "Error: element not found" << std::endl;
         return;
     }
 
-    cout << "Enter the new data: ";
-    cin >> new_data;
+    std::cout << "Enter the new data: ";
+    std::cin >> new_data;
 
-    list_element* new_elem = my_list.create_list_element(   (void*) new_data.c_str(),
+    list_element* new_elem = my_library.create_list_element(   (void*) new_data.c_str(),
                                                             new_data.length());
-    my_list.insert_list(existing_elem, new_elem);
-    my_list.delete_from_list(existing_elem);
+    my_library.insert_list(existing_elem, new_elem);
+    my_library.delete_from_list(existing_elem);
 
-    cout << "Element has been edited" << endl;
-    cout << "*********************" << endl;
+    std::cout << "Element has been edited" << std::endl;
+    std::cout << "*********************" << std::endl;
 }
 
 void removeElement(){
     int index = 0; 
 
-    cout << "Enter the element index: ";
-    cin >> index;
+    std::cout << "Enter the element index: ";
+    std::cin >> index;
 
-    if(!cin){
-        cout  << "Error: wrong input index" << endl;
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    if(!std::cin){
+        std::cout  << "Error: wrong input index" << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
     }
 
-    list_element* existing_elem = my_list.get_list_element_at_pos(--index);
+    list_element* existing_elem = my_library.get_list_element_at_pos(--index);
     if(existing_elem == NULL){
-        cout << "Error: element not found" << endl;
+        std::cout << "Error: element not found" << std::endl;
         return;
     }
-    my_list.delete_from_list(existing_elem);
+    my_library.delete_from_list(existing_elem);
 
-    cout << "Element has been removed" << endl;
-    cout << "*********************" << endl;
+    std::cout << "Element has been removed" << std::endl;
+    std::cout << "*********************" << std::endl;
 }
 
 void printList(){
-    cout << "List of elements:" << endl;
+    std::cout << "List of elements:" << std::endl;
     int counter = 0;
-    list_element *item = my_list.get_list_element_at_pos(counter++);
+    list_element *item = my_library.get_list_element_at_pos(counter++);
     while(item != NULL){
-        char *array = (char*)item->data;
-        cout << counter << ": " << array << endl;
-        item = my_list.get_list_element_at_pos(counter++);
+        char* array = (char*)item->data;
+        std::cout << counter << ": " << array << std::endl;
+        item = my_library.get_list_element_at_pos(counter++);
     }
 
-    cout << "*********************" << endl;
+    std::cout << "*********************" << std::endl;
 }
 
 void userHelp(){
-    cout << "For working with list you can use the following commands:" << endl;
-    cout << "add - add a new element;" << endl;
-    cout << "edit - edit existing element;" << endl;
-    cout << "ls - get list of all elements;" << endl;
-    cout << "rm - remove element." << endl;
-    cout << "exit - close the program." << endl;
+    std::cout << "For working with library you can use the following commands:" << std::endl;
+    std::cout << "add - add a new book;" << std::endl;
+    std::cout << "edit - edit existing book;" << std::endl;
+    std::cout << "ls - get list of all book;" << std::endl;
+    std::cout << "rm - remove book." << std::endl;
+    std::cout << "exit - close the book." << std::endl;
 }
 
 void closeProgram(){
