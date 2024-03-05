@@ -7,7 +7,8 @@ add_executable(${PROJECT_NAME})
 target_include_directories(
     ${PROJECT_NAME}
 PUBLIC 
-    ${CMAKE_CURRENT_LIST_DIR}/
+    ${CMAKE_CURRENT_LIST_DIR}/lib/book/
+    ${CMAKE_CURRENT_LIST_DIR}/lib/list/
 )
 
 set(OPT -O0)
@@ -22,6 +23,6 @@ add_compile_options(
 target_sources(
     ${PROJECT_NAME}
 PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/my_list.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/lib/list/my_list.cpp
     ${CMAKE_CURRENT_LIST_DIR}/main.cpp
 )
