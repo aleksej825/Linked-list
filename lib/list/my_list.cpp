@@ -9,7 +9,6 @@
  * 
  */
 
-
 #include "my_list.hpp"
 
 #include <stdio.h>
@@ -77,7 +76,6 @@ list_element* list_element<T> :: operator new()
 }
 */
 
-
 struct list_element* linkedList::create_list_element( void* new_data, size_t data_size )
 {
     struct list_element* temp_element = NULL;
@@ -127,7 +125,6 @@ void linkedList::delete_list_element( struct list_element** del_element )
 
 //     return temp_list;
 // }
-
 
 
 bool linkedList::is_belonged_to_list(struct list_element* le)
@@ -224,7 +221,7 @@ void linkedList::insert_list(   struct list_element* pos,
     }
 }
 
-struct list_element* linkedList::get_list_element_at_pos(int pos)
+list_element* linkedList::get_list_element_at_pos(int pos)
 {
     struct list_element* wp = NULL;
     if( (pos < 0) || (pos >= list->count) ) return NULL;
@@ -236,10 +233,7 @@ struct list_element* linkedList::get_list_element_at_pos(int pos)
     return wp;
 }
 
-
-
-struct list_element*
-linkedList::delete_form_list_head(bool need_free )
+struct list_element* linkedList::delete_form_list_head(bool need_free )
 {
     if(     (list->head == NULL) ||
             (list->tail == NULL) ||
@@ -269,8 +263,7 @@ linkedList::delete_form_list_head(bool need_free )
     }
 }
 
-struct list_element*
-linkedList::delete_form_list_tail(bool need_free )
+struct list_element* linkedList::delete_form_list_tail(bool need_free )
 {
     if(     (list->head == NULL) ||
             (list->tail == NULL) ||
@@ -327,9 +320,8 @@ struct list_element* linkedList::delete_form_list_middle (
     }
 }
 
-struct list_element*
-linkedList::delete_from_list(   struct list_element* pos,
-                                bool need_free )
+struct list_element*linkedList::delete_from_list(   struct list_element* pos,
+                                                    bool need_free )
 {
     struct list_element* temp_element = NULL;
     if( list->head == NULL && list->tail == NULL ) // empty list
@@ -345,8 +337,7 @@ linkedList::delete_from_list(   struct list_element* pos,
     return temp_element;
 }
 
-struct list_element*
-linkedList::find_element_in_list( struct list_element* test )
+struct list_element* linkedList::find_element_in_list( struct list_element* test )
 {
     struct list_element* wp = list->head;
 
@@ -359,7 +350,6 @@ linkedList::find_element_in_list( struct list_element* test )
     }
     return wp;
 }
-
 
 void linkedList::add_to_sort_list( struct list_element* new_element )
 {
@@ -385,13 +375,13 @@ int compare_curr = 0;
     insert_list(wp->prev, new_element);
 }
 
-
 /**
  *  @WARNING: pointers onto list elements: what_to_find, what_to_change
  *  need to be free in high-level code after this function call have
  *  been executed due to fact that there are only temporarycontainers
  *  for end-data
 **/
+
 void linkedList::change_list_element_in_sort_list(
         struct list_element* what_to_find,
         struct list_element* what_to_change)
@@ -463,17 +453,3 @@ void linkedList::resort_list(compare_list_elements_fn new_criteria )
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

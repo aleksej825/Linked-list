@@ -9,12 +9,11 @@
  * 
  */
 
-#ifndef __MY_LIST_H__
-#define __MY_LIST_H__
+#ifndef __MY_LIST_HPP__
+#define __MY_LIST_HPP__
 
 
 #include <stdlib.h>
-
 
 struct list_element {
     struct list_element*    next;
@@ -26,11 +25,12 @@ struct list_element {
 typedef int (*compare_list_elements_fn) (struct list_element*, struct list_element*);
 
 struct bidir_list {
-    struct list_element*        head;
-    struct list_element*        tail;
-    int                         count;
-    compare_list_elements_fn    criteria;
+    struct list_element*  head;
+    struct list_element*  tail;
+    int                             count;
+    compare_list_elements_fn        criteria;
 };
+
 
 class linkedList{
     private:
@@ -57,7 +57,7 @@ class linkedList{
     // struct bidir_list* create_bidir_list( void );
     // struct bidir_list* create_bidir_list (compare_list_elements_fn cmp_f);
 
-    struct list_element* get_list_element_at_pos(int pos);
+    list_element* get_list_element_at_pos(int pos);
 
 
     void insert_list_head(struct list_element* new_elem);
@@ -79,4 +79,4 @@ class linkedList{
     inline int get_elem_qty() { return list->count == 0 ? 0: list->count-1; }
 };
 
-#endif // __MY_LIST_H__
+#endif // __MY_LIST_HPP__
