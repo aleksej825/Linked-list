@@ -25,17 +25,18 @@ linkedList<T>::linkedList(){
     list->head = NULL;
     list->tail = NULL;
     list->count = 0;
-    // list->criteria = NULL;
+    list->criteria = NULL;
 }
 
-// linkedList<T>::linkedList(compare_list_elements_fn cmp_f){
-//     list = NULL;
-//     list = (struct bidir_list*) malloc( sizeof(struct bidir_list));
-//     list->head = NULL;
-//     list->tail = NULL;
-//     list->count = 0;
-//     list->criteria = cmp_f;
-// }
+template <typename T>
+linkedList<T>::linkedList(compare_list_elements_fn<T> cmp_f){
+    list = NULL;
+    list = (struct bidir_list<T>*) malloc( sizeof(struct bidir_list<T>));
+    list->head = NULL;
+    list->tail = NULL;
+    list->count = 0;
+    list->criteria = cmp_f;
+}
 
 template <typename T>
 linkedList<T>::~linkedList(){
@@ -84,15 +85,13 @@ list_element* list_element<T> :: operator new()
 */
 
 template <typename T>
-struct list_element<T>* linkedList<T>::create_list_element( void* new_data, size_t data_size )
+struct list_element<T>* linkedList<T>::create_list_element( T* new_data)
 {
     struct list_element<T>* temp_element = NULL;
     temp_element = (struct list_element<T>*) malloc( sizeof(struct list_element<T>));
     temp_element->next = NULL;
     temp_element->prev = NULL;
-    temp_element->data = (T*)malloc(data_size);
-    memcpy(temp_element->data, new_data, data_size);
-    temp_element->data_size = data_size;
+    temp_element->data = new_data;
 
     return temp_element;
 }
@@ -111,29 +110,31 @@ void linkedList<T>::delete_list_element( struct list_element<T>** del_element )
     *del_element = NULL;
 }
 
-// struct bidir_list* linkedList<T>::create_bidir_list( void )
-// {
-//     struct bidir_list* temp_list = NULL;
-//     temp_list = (struct bidir_list*) malloc( sizeof(struct bidir_list));
-//     temp_list->head = NULL;
-//     temp_list->tail = NULL;
-//     temp_list->count = 0;
-//     temp_list->criteria = NULL;
+template <typename T>
+struct bidir_list<T>* linkedList<T>::create_bidir_list( void )
+{
+    struct bidir_list<T>* temp_list = NULL;
+    temp_list = (struct bidir_list<T>*) malloc( sizeof(struct bidir_list<T>));
+    temp_list->head = NULL;
+    temp_list->tail = NULL;
+    temp_list->count = 0;
+    temp_list->criteria = NULL;
 
-//     return temp_list;
-// }
+    return temp_list;
+}
 
-// struct bidir_list* linkedList<T>::create_bidir_list( compare_list_elements_fn cmp_f )
-// {
-//     struct bidir_list* temp_list = NULL;
-//     temp_list = (struct bidir_list*) malloc( sizeof(struct bidir_list));
-//     temp_list->head = NULL;
-//     temp_list->tail = NULL;
-//     temp_list->count = 0;
-//     temp_list->criteria = cmp_f;
+template <typename T>
+struct bidir_list<T>* linkedList<T>::create_bidir_list( compare_list_elements_fn<T> cmp_f )
+{
+    struct bidir_list<T>* temp_list = NULL;
+    temp_list = (struct bidir_list<T>*) malloc( sizeof(struct bidir_list<T>));
+    temp_list->head = NULL;
+    temp_list->tail = NULL;
+    temp_list->count = 0;
+    temp_list->criteria = cmp_f;
 
-//     return temp_list;
-// }
+    return temp_list;
+}
 
 
 template <typename T>

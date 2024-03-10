@@ -1,4 +1,8 @@
+#ifndef __BOOK_HPP__
+#define __BOOK_HPP__
+
 #include "string"
+#include "iostream"
 
 using namespace std;
 
@@ -10,6 +14,7 @@ class Book{
 
     public:
     Book();
+    Book(string new_name, string new_author, string new_content);
     ~Book();
 
     inline void setName(string new_val){
@@ -36,4 +41,24 @@ class Book{
         return content;
     }
 
+    friend ostream& operator<<(ostream& os, const Book& bk)
+    {
+        os << "Book name - " << bk.name << endl;
+        os << "Author - " << bk.author << endl;
+        os << "Content - " << bk.content << endl;
+
+        return os;
+    }
+
+    friend ostream& operator<<(ostream& os, const Book* bk)
+    {
+        os << "Book name - " << bk->name << endl;
+        os << "Author - " << bk->author << endl;
+        os << "Content - " << bk->content << endl;
+
+        return os;
+    }
+
 };
+
+#endif //__BOOK_HPP__

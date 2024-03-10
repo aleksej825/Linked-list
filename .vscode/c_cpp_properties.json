@@ -5,7 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/lib/book/",
-                "${workspaceFolder}/lib/list/"
+                "${workspaceFolder}/lib/list/",
+                "${workspaceFolder}/lib/book/",
+                "${workspaceFolder}/lib/menu/"
             ],
             "defines": [
 

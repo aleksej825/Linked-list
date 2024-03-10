@@ -9,6 +9,7 @@ target_include_directories(
 PUBLIC 
     ${CMAKE_CURRENT_LIST_DIR}/lib/book/
     ${CMAKE_CURRENT_LIST_DIR}/lib/list/
+    ${CMAKE_CURRENT_LIST_DIR}/lib/menu/
 )
 
 set(OPT -O0)
@@ -24,5 +25,7 @@ target_sources(
     ${PROJECT_NAME}
 PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/lib/list/my_list.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/lib/book/book.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/lib/menu/menu.cpp
     ${CMAKE_CURRENT_LIST_DIR}/main.cpp
 )
