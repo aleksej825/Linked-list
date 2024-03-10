@@ -13,8 +13,6 @@
 #include "map"
 #include <limits>
 
-// using namespace std;
-
 void addElement();
 void editElement();
 void removeElement();
@@ -22,7 +20,8 @@ void printList();
 void userHelp();
 void closeProgram();
 
-linkedList my_library;
+linkedList<char*> my_library;
+
 
 int main(){
 
@@ -58,11 +57,11 @@ void addElement(){
     std::cout << "Enter the new data: ";
     std::cin >> new_data;
 
-    list_element* new_elem = my_library.create_list_element(   (void*) new_data.c_str(),
+    list_element<char*>* new_elem = my_library.create_list_element(   (void*) new_data.c_str(),
                                                             new_data.length());
     
     int elem_qty = my_library.get_elem_qty();
-    list_element* existing_elem = my_library.get_list_element_at_pos(elem_qty);
+    list_element<char*>* existing_elem = my_library.get_list_element_at_pos(elem_qty);
     my_library.insert_list(existing_elem, new_elem);
 
     std::cout << "Element has been added" << std::endl;
@@ -83,7 +82,7 @@ void editElement(){
         return;
     }
 
-    list_element* existing_elem = my_library.get_list_element_at_pos(--index);
+    list_element<char*>* existing_elem = my_library.get_list_element_at_pos(--index);
     if(existing_elem == NULL){
         std::cout << "Error: element not found" << std::endl;
         return;
@@ -92,7 +91,7 @@ void editElement(){
     std::cout << "Enter the new data: ";
     std::cin >> new_data;
 
-    list_element* new_elem = my_library.create_list_element(   (void*) new_data.c_str(),
+    list_element<char*>* new_elem = my_library.create_list_element(   (void*) new_data.c_str(),
                                                             new_data.length());
     my_library.insert_list(existing_elem, new_elem);
     my_library.delete_from_list(existing_elem);
@@ -114,7 +113,7 @@ void removeElement(){
         return;
     }
 
-    list_element* existing_elem = my_library.get_list_element_at_pos(--index);
+    list_element<char*>* existing_elem = my_library.get_list_element_at_pos(--index);
     if(existing_elem == NULL){
         std::cout << "Error: element not found" << std::endl;
         return;
@@ -128,7 +127,7 @@ void removeElement(){
 void printList(){
     std::cout << "List of elements:" << std::endl;
     int counter = 0;
-    list_element *item = my_library.get_list_element_at_pos(counter++);
+    list_element<char*> *item = my_library.get_list_element_at_pos(counter++);
     while(item != NULL){
         char* array = (char*)item->data;
         std::cout << counter << ": " << array << std::endl;
