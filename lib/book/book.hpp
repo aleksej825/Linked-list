@@ -3,6 +3,7 @@
 
 #include "string"
 #include "iostream"
+#include <ctime>
 
 using namespace std;
 
@@ -11,6 +12,7 @@ class Book{
     string name;
     string author;
     string content;
+    std::time_t created_at;
 
     public:
     Book();
@@ -45,6 +47,7 @@ class Book{
     {
         os << "Book name - " << bk.name << endl;
         os << "Author - " << bk.author << endl;
+        os << "Created - " << std::asctime(std::localtime(&bk.created_at));
         os << "Content - " << bk.content << endl;
 
         return os;
@@ -54,9 +57,14 @@ class Book{
     {
         os << "Book name - " << bk->name << endl;
         os << "Author - " << bk->author << endl;
+        os << "Created - " << std::asctime(std::localtime(&bk->created_at));
         os << "Content - " << bk->content << endl;
 
         return os;
+    }
+
+    inline int length(){
+        return name.length() + author.length() + content.length();
     }
 
 };
