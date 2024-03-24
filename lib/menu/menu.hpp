@@ -5,6 +5,7 @@
 #include "my_list.hpp"
 #include "iostream"
 #include <fstream>
+#include "vector"
 
 template<typename T>
 class generic_menu{
@@ -39,6 +40,10 @@ class lib_menu: public generic_menu<Book>{
 protected:
     std::ofstream backup_file;
     std::string file_path;
+
+    void addBook(Book *new_book);
+    void editBook(Book *new_book);
+    void removeBook(Book *new_item);
 public:
     lib_menu();
     ~lib_menu();
@@ -51,12 +56,16 @@ public:
     void userHelp() {this->userHelp();}; // wrapper for call the parrent method from the map
     void sortBySize() override; // TODO: don't work
     void addRecord(Book *item);
-    void updateRecord();
+    void updateRecord(Book *item, int index);
+    void removeRecord(int index);
     void readBackupFile(std::string path);
     inline bool isFileEmpty(const std::string& filename) {
         std::ifstream file(filename);
         return file.peek() == std::ifstream::traits_type::eof();
     }
+    void clearBackupFile();
+    std::string getBookStr(Book *item);
+    void fillBackupFile(std::vector<string> &new_data);
 };
 
 #endif // __MENU_HPP__
