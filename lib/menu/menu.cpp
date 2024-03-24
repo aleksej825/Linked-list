@@ -116,19 +116,6 @@ void lib_menu::closeProgram(){
     exit(0);
 }
 
-int sort(struct list_element<Book>* elem1, struct list_element<Book>* elem2)
-{
-    int elem1_size = elem1->data->length();
-    int elem2_size = elem2->data->length();
-
-    if(elem1_size > elem2_size)
-        return 1;
-    if(elem2_size > elem1_size)
-        return -1;
-
-    return 0;
-}
-
 void lib_menu::sortBySize(){
     
     auto compare_func = [](struct list_element<Book>* elem1, struct list_element<Book>* elem2){
@@ -143,7 +130,8 @@ void lib_menu::sortBySize(){
         return 0;
     };
     
-    list.resort_list(&sort);
+    list.resort_list(compare_func);
+    updateBackup();
     std::cout << "List resorted!" << std::endl;
 }
 
@@ -216,7 +204,7 @@ void lib_menu::readBackupFile(std::string path)
             addBook(new_item);
             index++;
         }
-        std::cout << "Done!" << path << std::endl;
+        std::cout << "Done!" << std::endl;
     }catch(...){
         std::cout << "File parsing error." << std::endl;
     }
@@ -226,7 +214,7 @@ void lib_menu::addBook(Book *new_book)
 {
     list_element<Book>* new_elem = list.create_list_element(new_book);
     int elem_qty = list.get_elem_qty();
-    list_element<Book>* existing_elem = list.get_list_element_at_pos(elem_qty);
+    list_element<Book>* existing_elem = list.get_list_element_at_pos(elem_qty-1);
     list.insert_list(existing_elem, new_elem);
 }
 
@@ -263,4 +251,20 @@ void lib_menu::fillBackupFile(std::vector<string> &new_data)
         backup_file << elem;
     }
     backup_file.flush();
+}
+
+void lib_menu::updateBackup()
+{
+    std::ifstream in_stream;
+    std::vector<std::string> buffer;
+    std::string header = "Created at,Author,Name,Content\n";
+
+    buffer.push_back(header);
+    for(int index = 0; index < list.get_elem_qty(); index++)
+    {
+        struct list_element<Book>* item = list.get_list_element_at_pos(index);
+        buffer.push_back(getBookStr(item->data));
+    }
+    in_stream.close();
+    fillBackupFile(buffer);
 }

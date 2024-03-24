@@ -30,6 +30,7 @@ public:
         std::cout << "edit - edit existing book;" << std::endl;
         std::cout << "ls - get list of all book;" << std::endl;
         std::cout << "rm - remove book." << std::endl;
+        std::cout << "sz - sort list by size." << std::endl;
         std::cout << "exit - close the book." << std::endl;
     }
     virtual void closeProgram() = 0;
@@ -54,10 +55,11 @@ public:
     void printList() override;
     void closeProgram() override;
     void userHelp() {this->userHelp();}; // wrapper for call the parrent method from the map
-    void sortBySize() override; // TODO: don't work
+    void sortBySize() override;
     void addRecord(Book *item);
     void updateRecord(Book *item, int index);
     void removeRecord(int index);
+    void updateBackup();
     void readBackupFile(std::string path);
     inline bool isFileEmpty(const std::string& filename) {
         std::ifstream file(filename);
