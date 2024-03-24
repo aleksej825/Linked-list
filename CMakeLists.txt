@@ -29,3 +29,11 @@ PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/lib/menu/menu.cpp
     ${CMAKE_CURRENT_LIST_DIR}/main.cpp
 )
+
+add_subdirectory(lib/rapidcsv)
+
+target_link_libraries(
+    ${PROJECT_NAME}
+PUBLIC
+    rapidcsv
+)

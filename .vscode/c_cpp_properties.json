@@ -7,7 +7,8 @@
                 "${workspaceFolder}/lib/book/",
                 "${workspaceFolder}/lib/list/",
                 "${workspaceFolder}/lib/book/",
-                "${workspaceFolder}/lib/menu/"
+                "${workspaceFolder}/lib/menu/",
+                "${workspaceFolder}/lib/rapidcsv/src/"
             ],
             "defines": [
 
