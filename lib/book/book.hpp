@@ -43,6 +43,12 @@ class Book{
         return content;
     }
 
+    inline string getTimeCreate(){
+        string temp = std::asctime(std::localtime(&created_at));
+        temp.erase(temp.end()-1);
+        return temp;
+    }
+
     friend ostream& operator<<(ostream& os, const Book& bk)
     {
         os << "Book name - " << bk.name << endl;
@@ -65,6 +71,13 @@ class Book{
 
     inline int length(){
         return name.length() + author.length() + content.length();
+    }
+
+    inline void parseDateTime(const char* datetimeString)
+    {
+        struct tm tmStruct;
+        strptime(datetimeString, "%c", &tmStruct);
+        created_at = mktime(&tmStruct);
     }
 
 };
