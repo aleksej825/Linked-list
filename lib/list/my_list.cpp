@@ -454,30 +454,39 @@ void linkedList<T>::delete_all_from_list()
 
 }
 
-// template <typename T>
-// void linkedList<T>::resort_list(compare_list_elements_fn new_criteria )
-// {
-//     if( new_criteria == NULL ) return;
+template <typename T>
+void linkedList<T>::resort_list(compare_list_elements_fn<T> new_criteria )
+{
+    if( new_criteria == NULL ) return;
 
-//     struct list_element<T>* old_list = list->head;
+    list->criteria = new_criteria;
 
-//     list->head = list->tail = NULL;
-//     list->count = 0;
+    // Start from the head of the list
+    struct list_element<T>* i = list->head;
+	// Loop over each element in the list
+    while (i != nullptr) {
+		// Assume the current element is the smallest
+        struct list_element<T>* min = i;
+		// Look for a smaller element in the rest of the list
+        struct list_element<T>* j = i->next;
+        while (j != nullptr) {
+			// If a smaller element is found, update min
+            if (list->criteria(j, min) == 1) {
+                min = j;
+            }
+            j = j->next;
+        }
+		// If a smaller element was found, swap the data of the current element and the smallest element
+        if (min != i) {
+            // Swap the data of i and min
+            T* temp = i->data;
+            i->data = min->data;
+            min->data = temp;
+        }
+		// Move on to the next element
+        i = i->next;
+    }
 
-//     list->criteria = new_criteria;
-
-//     while( old_list != NULL)
-//     {
-//         old_list = old_list->next; // move to the next element
-
-//         old_list->prev->next = NULL; // perform insertion for previous element
-//         old_list->prev->prev = NULL;
-
-//         add_to_sort_list(old_list->prev);
-//         // add old elemnt to the list with new sorting criteria !
-//     }
-
-// }
-
+}
 
 #endif // __MY_LIST_CPP__

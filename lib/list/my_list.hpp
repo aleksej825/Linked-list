@@ -47,7 +47,6 @@ class linkedList{
                             struct list_element<T>* what_to_find,
                             struct list_element<T>* what_to_change);
     void delete_all_from_list();
-    // void resort_list(compare_list_elements_fn new_criteria );
     void insert_list_head(struct list_element<T>* new_elem);
     void insert_list_tail(struct list_element<T>* new_elem);
     void insert_list_between(   struct list_element<T>* pos,
@@ -63,6 +62,7 @@ class linkedList{
     linkedList(compare_list_elements_fn<T> cmp_f);
     ~linkedList();
 
+    void resort_list(compare_list_elements_fn<T> new_criteria );
     struct list_element<T>* create_list_element( void );
     struct list_element<T>* create_list_element( T* new_data);
     void delete_list_element( struct list_element<T>** del_element );
@@ -76,7 +76,7 @@ class linkedList{
 
     struct list_element<T>* delete_from_list(  struct list_element<T>* pos,
                                             bool need_free = true);
-    inline int get_elem_qty() { return list->count == 0 ? 0: list->count-1; }
+    inline int get_elem_qty() { return list->count; }
 };
 
 #include "./my_list.cpp"
