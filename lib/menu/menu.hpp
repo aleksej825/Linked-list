@@ -54,7 +54,7 @@ public:
     void removeElement() override;
     void printList() override;
     void closeProgram() override;
-    void userHelp() {this->userHelp();}; // wrapper for call the parrent method from the map
+    void userHelp() {generic_menu<Book>::userHelp();}; // wrapper for call the parrent method from the map
     void sortBySize() override;
     void addRecord(Book *item);
     void updateRecord(Book *item, int index);
