@@ -21,7 +21,7 @@
 template <typename T>
 linkedList<T>::linkedList(){
     list = NULL;
-    list = (struct bidir_list<T>*) malloc( sizeof(struct bidir_list<T>));
+    list = new bidir_list<T>();
     list->head = NULL;
     list->tail = NULL;
     list->count = 0;
@@ -31,7 +31,7 @@ linkedList<T>::linkedList(){
 template <typename T>
 linkedList<T>::linkedList(compare_list_elements_fn<T> cmp_f){
     list = NULL;
-    list = (struct bidir_list<T>*) malloc( sizeof(struct bidir_list<T>));
+    list = new bidir_list<T>();
     list->head = NULL;
     list->tail = NULL;
     list->count = 0;
@@ -46,15 +46,10 @@ linkedList<T>::~linkedList(){
 // list_element* xxx = create_list_element();
 
 template <typename T>
-struct list_element<T>* linkedList<T>::create_list_element( void )
+ list_element<T>* linkedList<T>::create_list_element( void )
 {
-    struct list_element<T>* temp_element = NULL;
-    temp_element = (struct list_element<T>*) 
-	                malloc( sizeof(struct list_element<T>));
-    /* (*temp_element).next = NULL; */  temp_element->next = NULL;
-    /* (*temp_element).prev = NULL; */  temp_element->prev = NULL;
-    /* (*temp_element).data = NULL; */  temp_element->data = NULL;
-    /* (*temp_element).data = 0; */     temp_element->data_size = 0;
+    list_element<T>* temp_element = NULL;
+    temp_element = new list_element<T>();   
 
     return temp_element;
 }
@@ -85,36 +80,26 @@ list_element* list_element<T> :: operator new()
 */
 
 template <typename T>
-struct list_element<T>* linkedList<T>::create_list_element( T* new_data)
+ list_element<T>* linkedList<T>::create_list_element( T* new_data)
 {
-    struct list_element<T>* temp_element = NULL;
-    temp_element = (struct list_element<T>*) malloc( sizeof(struct list_element<T>));
-    temp_element->next = NULL;
-    temp_element->prev = NULL;
-    temp_element->data = new_data;
+     list_element<T>* temp_element = NULL;
+    temp_element = new list_element<T>(new_data);
 
     return temp_element;
 }
-
+#include "iostream"
 template <typename T>
-void linkedList<T>::delete_list_element( struct list_element<T>** del_element )
+void linkedList<T>::delete_list_element(  list_element<T>** del_element )
 {
-    (*del_element)->next = NULL; // paranoic assignment
-    (*del_element)->prev = NULL; // paranoic assignment
-
-    if( (*del_element)->data != NULL)
-        free( (*del_element)->data ); // free connected data first of all
-    (*del_element)->data = NULL; // paranoic assignment
-
-    free( *del_element );
+    delete *del_element;
     *del_element = NULL;
 }
 
 template <typename T>
-struct bidir_list<T>* linkedList<T>::create_bidir_list( void )
+bidir_list<T>* linkedList<T>::create_bidir_list( void )
 {
-    struct bidir_list<T>* temp_list = NULL;
-    temp_list = (struct bidir_list<T>*) malloc( sizeof(struct bidir_list<T>));
+    bidir_list<T>* temp_list = NULL;
+    temp_list = new bidir_list<T>();
     temp_list->head = NULL;
     temp_list->tail = NULL;
     temp_list->count = 0;
@@ -124,10 +109,10 @@ struct bidir_list<T>* linkedList<T>::create_bidir_list( void )
 }
 
 template <typename T>
-struct bidir_list<T>* linkedList<T>::create_bidir_list( compare_list_elements_fn<T> cmp_f )
+bidir_list<T>* linkedList<T>::create_bidir_list( compare_list_elements_fn<T> cmp_f )
 {
-    struct bidir_list<T>* temp_list = NULL;
-    temp_list = (struct bidir_list<T>*) malloc( sizeof(struct bidir_list<T>));
+    bidir_list<T>* temp_list = NULL;
+    temp_list = new bidir_list<T>();
     temp_list->head = NULL;
     temp_list->tail = NULL;
     temp_list->count = 0;
@@ -138,11 +123,11 @@ struct bidir_list<T>* linkedList<T>::create_bidir_list( compare_list_elements_fn
 
 
 template <typename T>
-bool linkedList<T>::is_belonged_to_list(struct list_element<T>* le)
+bool linkedList<T>::is_belonged_to_list( list_element<T>* le)
 {
    bool presence_flag = false;
 
-   struct list_element<T>* wp = list->head;
+    list_element<T>* wp = list->head;
    // create and set 'work pointer' to the list beginning
 
    while( wp != NULL ){ // while the end of list is not reached
@@ -157,7 +142,7 @@ bool linkedList<T>::is_belonged_to_list(struct list_element<T>* le)
 }
 
 template <typename T>
-void linkedList<T>::insert_empty_list(struct list_element<T>* new_elem)
+void linkedList<T>::insert_empty_list( list_element<T>* new_elem)
 {
     if( new_elem == NULL ) return;
 
@@ -170,7 +155,7 @@ void linkedList<T>::insert_empty_list(struct list_element<T>* new_elem)
 }
 
 template <typename T>
-void linkedList<T>::insert_list_head(struct list_element<T>* new_elem)
+void linkedList<T>::insert_list_head( list_element<T>* new_elem)
 {
     if( list->head == NULL || list->tail == NULL) return;
 
@@ -182,7 +167,7 @@ void linkedList<T>::insert_list_head(struct list_element<T>* new_elem)
 }
 
 template <typename T>
-void linkedList<T>::insert_list_tail(struct list_element<T>* new_elem)
+void linkedList<T>::insert_list_tail( list_element<T>* new_elem)
 {
     if( list->head == NULL || list->tail == NULL) return;
 
@@ -194,9 +179,9 @@ void linkedList<T>::insert_list_tail(struct list_element<T>* new_elem)
 }
 
 template <typename T>
-void linkedList<T>::insert_list_between(   struct list_element<T>* pos,
+void linkedList<T>::insert_list_between(    list_element<T>* pos,
                                         // position AFTER which will be inserted
-                                        struct list_element<T>* new_elem)
+                                         list_element<T>* new_elem)
 {
     if( list->head == NULL || list->tail == NULL) return;
 
@@ -217,8 +202,8 @@ void linkedList<T>::insert_list_between(   struct list_element<T>* pos,
 }
 
 template <typename T>
-void linkedList<T>::insert_list(   struct list_element<T>* pos,
-                                struct list_element<T>* new_elem)
+void linkedList<T>::insert_list(    list_element<T>* pos,
+                                 list_element<T>* new_elem)
 {
     if( new_elem == NULL ) return;
 
@@ -240,7 +225,7 @@ void linkedList<T>::insert_list(   struct list_element<T>* pos,
 template <typename T>
 list_element<T>* linkedList<T>::get_list_element_at_pos(int pos)
 {
-    struct list_element<T>* wp = NULL;
+     list_element<T>* wp = NULL;
     if( (pos < 0) || (pos >= list->count) ) return NULL;
 
     wp = list->head;
@@ -251,14 +236,14 @@ list_element<T>* linkedList<T>::get_list_element_at_pos(int pos)
 }
 
 template <typename T>
-struct list_element<T>* linkedList<T>::delete_form_list_head(bool need_free )
+ list_element<T>* linkedList<T>::delete_form_list_head(bool need_free )
 {
     if(     (list->head == NULL) ||
             (list->tail == NULL) ||
             (list == NULL ))
         return NULL;
 
-    struct list_element<T>* del_pos = list->head;
+     list_element<T>* del_pos = list->head;
 
     if( list->head != list->tail ) {
         // check if list has more than element
@@ -282,14 +267,14 @@ struct list_element<T>* linkedList<T>::delete_form_list_head(bool need_free )
 }
 
 template <typename T>
-struct list_element<T>* linkedList<T>::delete_form_list_tail(bool need_free )
+ list_element<T>* linkedList<T>::delete_form_list_tail(bool need_free )
 {
     if(     (list->head == NULL) ||
             (list->tail == NULL) ||
             (list == NULL ))
         return NULL;
 
-    struct list_element<T>* del_pos = list->tail;
+     list_element<T>* del_pos = list->tail;
 
     if( list->head != list->tail ) {
         // check if list has more than element
@@ -313,8 +298,8 @@ struct list_element<T>* linkedList<T>::delete_form_list_tail(bool need_free )
 }
 
 template <typename T>
-struct list_element<T>* linkedList<T>::delete_form_list_middle (
-        struct list_element<T>* element,
+ list_element<T>* linkedList<T>::delete_form_list_middle (
+         list_element<T>* element,
         bool need_free )
 {
     if( element == NULL ) return NULL;
@@ -341,10 +326,10 @@ struct list_element<T>* linkedList<T>::delete_form_list_middle (
 }
 
 template <typename T>
-struct list_element<T>*linkedList<T>::delete_from_list(   struct list_element<T>* pos,
+ list_element<T>*linkedList<T>::delete_from_list(    list_element<T>* pos,
                                                     bool need_free )
 {
-    struct list_element<T>* temp_element = NULL;
+     list_element<T>* temp_element = NULL;
     if( list->head == NULL && list->tail == NULL ) // empty list
     {
         return NULL;
@@ -359,9 +344,9 @@ struct list_element<T>*linkedList<T>::delete_from_list(   struct list_element<T>
 }
 
 template <typename T>
-struct list_element<T>* linkedList<T>::find_element_in_list( struct list_element<T>* test )
+ list_element<T>* linkedList<T>::find_element_in_list(  list_element<T>* test )
 {
-    struct list_element<T>* wp = list->head;
+     list_element<T>* wp = list->head;
 
     while( wp != NULL )
     {
@@ -374,10 +359,10 @@ struct list_element<T>* linkedList<T>::find_element_in_list( struct list_element
 }
 
 template <typename T>
-void linkedList<T>::add_to_sort_list( struct list_element<T>* new_element )
+void linkedList<T>::add_to_sort_list(  list_element<T>* new_element )
 {
 
-struct list_element<T>* wp = list->head;
+ list_element<T>* wp = list->head;
 int compare_prev = 0;
 int compare_curr = 0;
 
@@ -406,19 +391,20 @@ int compare_curr = 0;
 **/
 template <typename T>
 void linkedList<T>::change_list_element_in_sort_list(
-        struct list_element<T>* what_to_find,
-        struct list_element<T>* what_to_change)
+         list_element<T>* what_to_find,
+         list_element<T>* what_to_change)
 {
     /* STAGE 1: find element that is need to be changed */
-    struct list_element<T>* fp = find_element_in_list(what_to_find);
+     list_element<T>* fp = find_element_in_list(what_to_find);
 
     if (fp != NULL ) { // If element for changing is existed in the list
 
     /* STAGE 2: remove element from list */
-    struct list_element<T>* cp = delete_from_list(fp, false);
+     list_element<T>* cp = delete_from_list(fp, false);
 
     /* STAGE 3: perform changes with data */
-    free( cp->data );    
+    // free( cp->data );    
+    delete cp->data;
     cp->data = what_to_change->data; // VERY COARSE CHANGING METHOD !!!
 
     /* STAGE 4: add changed element to list again */
@@ -437,7 +423,7 @@ void linkedList<T>::delete_all_from_list()
 {
     if( list->head == NULL ) return;
 
-    struct list_element<T>* dp = list->head;
+     list_element<T>* dp = list->head;
 
 
     while( dp != NULL )
@@ -462,13 +448,13 @@ void linkedList<T>::resort_list(compare_list_elements_fn<T> new_criteria )
     list->criteria = new_criteria;
 
     // Start from the head of the list
-    struct list_element<T>* i = list->head;
+     list_element<T>* i = list->head;
 	// Loop over each element in the list
     while (i != nullptr) {
 		// Assume the current element is the smallest
-        struct list_element<T>* min = i;
+         list_element<T>* min = i;
 		// Look for a smaller element in the rest of the list
-        struct list_element<T>* j = i->next;
+         list_element<T>* j = i->next;
         while (j != nullptr) {
 			// If a smaller element is found, update min
             if (list->criteria(j, min) == 1) {
