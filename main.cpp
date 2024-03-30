@@ -23,6 +23,8 @@ int main(int argc, char *argv[]){
     std::string default_path = "./my_list_backup.csv";
     std::string backup_path;
 
+    std::cout << "Welcome to the library!" << std::endl;
+
     if(argc < 2){
         std::cout << "Backup file path not passed, used default path - " << default_path << std::endl;
         backup_path = default_path;
@@ -32,8 +34,6 @@ int main(int argc, char *argv[]){
     }
 
     my_library.readBackupFile(backup_path);
-
-    std::cout << "Welcome to the library!" << std::endl;
 
     std::string command;
     using handler_ptr_type = std::function<void()>;
