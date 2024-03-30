@@ -40,7 +40,7 @@ class list_element {
 };
 
 template<typename T>
-using compare_list_elements_fn = int (*) (list_element<T>*, list_element<T>*);
+using compare_list_elements_fn = bool (*) (list_element<T>*, list_element<T>*);
 
 template <typename T>
 class bidir_list {

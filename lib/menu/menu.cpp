@@ -123,11 +123,9 @@ void lib_menu::sortBySize(){
         int elem2_size = elem2->data->length();
 
         if(elem1_size > elem2_size)
-            return 1;
-        if(elem2_size > elem1_size)
-            return -1;
+            return true;
 
-        return 0;
+        return false;
     };
     
     list.resort_list(compare_func);

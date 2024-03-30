@@ -457,7 +457,7 @@ void linkedList<T>::resort_list(compare_list_elements_fn<T> new_criteria )
          list_element<T>* j = i->next;
         while (j != nullptr) {
 			// If a smaller element is found, update min
-            if (list->criteria(j, min) == 1) {
+            if (list->criteria(j, min)) {
                 min = j;
             }
             j = j->next;
