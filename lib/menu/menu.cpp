@@ -122,7 +122,41 @@ void lib_menu::sortBySize(){
         int elem1_size = elem1->data->length();
         int elem2_size = elem2->data->length();
 
-        if(elem1_size > elem2_size)
+        if(elem1_size < elem2_size)
+            return true;
+
+        return false;
+    };
+    
+    list.resort_list(compare_func);
+    updateBackup();
+    std::cout << "List resorted!" << std::endl;
+}
+
+void lib_menu::sortByAuthor()
+{
+    auto compare_func = [](struct list_element<Book>* elem1, struct list_element<Book>* elem2){
+        std::string elem1_auth = elem1->data->getAuthor();
+        std::string elem2_auth = elem2->data->getAuthor();
+
+        if(elem1_auth < elem2_auth)
+            return true;
+
+        return false;
+    };
+    
+    list.resort_list(compare_func);
+    updateBackup();
+    std::cout << "List resorted!" << std::endl;
+}
+
+void lib_menu::sortByCreatedAt()
+{
+    auto compare_func = [](struct list_element<Book>* elem1, struct list_element<Book>* elem2){
+        int elem1_time = elem1->data->getTimeCreateAsTimeFormat();
+        int elem2_time = elem2->data->getTimeCreateAsTimeFormat();
+
+        if(elem1_time < elem2_time)
             return true;
 
         return false;
@@ -235,7 +269,7 @@ void lib_menu::clearBackupFile()
 std::string lib_menu::getBookStr(Book *item)
 {
     std::string out;
-    out =   item->getTimeCreate() + ","
+    out =   item->getTimeCreateAsString() + ","
             + item->getAuthor() + ","
             + item->getName() + ","
             + item->getContent() + "\n";

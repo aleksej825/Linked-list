@@ -43,10 +43,14 @@ class Book{
         return content;
     }
 
-    inline string getTimeCreate(){
+    inline string getTimeCreateAsString(){
         string temp = std::asctime(std::localtime(&created_at));
         temp.erase(temp.end()-1);
         return temp;
+    }
+
+    inline std::time_t getTimeCreateAsTimeFormat(){
+        return created_at;
     }
 
     friend ostream& operator<<(ostream& os, const Book& bk)

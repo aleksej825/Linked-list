@@ -43,6 +43,8 @@ int main(int argc, char *argv[]){
         {"ls", std::bind(&lib_menu::printList, &my_library)},
         {"rm", std::bind(&lib_menu::removeElement, &my_library)},
         {"sz", std::bind(&lib_menu::sortBySize, &my_library)},
+        {"sa", std::bind(&lib_menu::sortByAuthor, &my_library)},
+        {"sc", std::bind(&lib_menu::sortByCreatedAt, &my_library)},
         {"help", std::bind(&lib_menu::userHelp, &my_library)},
         {"exit", std::bind(&lib_menu::closeProgram, &my_library)},
     };

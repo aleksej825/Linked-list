@@ -30,11 +30,15 @@ public:
         std::cout << "edit - edit existing book;" << std::endl;
         std::cout << "ls - get list of all book;" << std::endl;
         std::cout << "rm - remove book." << std::endl;
-        std::cout << "sz - sort list by size." << std::endl;
+        std::cout << "sz - sort by size." << std::endl;
+        std::cout << "sa - sort by author." << std::endl;
+        std::cout << "sc - sort by created at." << std::endl;
         std::cout << "exit - close the book." << std::endl;
     }
     virtual void closeProgram() = 0;
     virtual void sortBySize() = 0;
+    virtual void sortByAuthor() = 0;
+    virtual void sortByCreatedAt() = 0;
 };
 
 class lib_menu: public generic_menu<Book>{
@@ -56,6 +60,8 @@ public:
     void closeProgram() override;
     void userHelp() {generic_menu<Book>::userHelp();}; // wrapper for call the parrent method from the map
     void sortBySize() override;
+    void sortByAuthor() override;
+    void sortByCreatedAt() override;
     void addRecord(Book *item);
     void updateRecord(Book *item, int index);
     void removeRecord(int index);
